@@ -48,6 +48,21 @@ def get_daily_report(chat_id : str):
     
     return {"status" : True, "result" : response.json()}
 
+def action_by_id(id : str):
+    response = requests.get(Routes.action_by_id.format(id))
+    
+    if response.status_code != 200:
+        return {"status" : False}
+    
+    return {"status" : True, "result" : response.json()}
+
+def change_alert_status(track_id : str, chat_id : str):
+    response = requests.get(Routes.change_alert_status.format(track_id, chat_id))
+    
+    if response.status_code != 200:
+        return {"status" : False}
+    
+    return {"status" : True, "result" : response.json()}
 
 def get_usage_statistic():
     response = requests.get(Routes.usage_statistic)

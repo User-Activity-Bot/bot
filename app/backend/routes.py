@@ -14,6 +14,10 @@ class Routes:
     
     get_action_by_user = f"{BACK_URL}actions/users/{{}}/"
     
+    action_by_id = f"{BACK_URL}actions/{{}}/"
+    
+    change_alert_status = f"{BACK_URL}actions/alert/change/?track_id={{}}&user={{}}"
+    
     get_daily_report = f"{BACK_URL}actions/daily/?username={{}}"
     
     usage_statistic = f"{BACK_URL}counter/count/"
