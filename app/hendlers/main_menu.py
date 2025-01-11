@@ -25,6 +25,7 @@ async def command_start_handler(message: Message) -> None:
             await message.answer(f"""Привет {message.from_user.username}""", reply_markup=start_keyboard(message.chat.id, is_start=True))
         await message.delete()
     except Exception as e:
+        print(e)
         try:
             request = user_get_or_create(message.chat.id)
         except:
@@ -37,7 +38,7 @@ async def command_start_handler(message: Message) -> None:
         await message.delete()
         
 @start_router.callback_query(MainCallback.filter(F.action == "main_menu"))
-async def command_start_handler(callback_query: CallbackQuery) -> None:
+async def command_start_handler(callback_query: CallbackQuery, state: FSMContext) -> None:
     try:
         request = user_get_or_create(callback_query.message.chat.id)
         
@@ -46,6 +47,7 @@ async def command_start_handler(callback_query: CallbackQuery) -> None:
         else:
             await callback_query.message.answer(f"""Привет {callback_query.message.from_user.username}""", reply_markup=start_keyboard(callback_query.message.chat.id, is_start=True))
         await callback_query.message.delete()
+        await state.clear()
     except Exception as e:
         try:
             request = user_get_or_create(callback_query.message.chat.id)
@@ -56,4 +58,5 @@ async def command_start_handler(callback_query: CallbackQuery) -> None:
             await callback_query.message.answer(f"""Простите, произошла ошибка. Напишите /start позже, или обратитесь к админу.""")
         else:
             await callback_query.message.answer(f"""Привет {callback_query.message.from_user.username}""", reply_markup=start_keyboard(callback_query.message.chat.id, is_start=True))
+        await state.clear()
         await callback_query.message.delete()
